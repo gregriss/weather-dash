@@ -15,7 +15,7 @@
     <div class="container">
 
         <main>
-            <div class="city">
+            <div class="city-display">
                 <h2>City (1/28/2021)</h2>
                 <p>Temperature: </p>
                 <p>Humidity: </p>
@@ -35,10 +35,10 @@
                 </form>
             </div>
             <div class="button-list">
-                <button class="city-btn">Austin</button><br>
-                <button class="city-btn">Chicago</button><br>
-                <button class="city-btn">New York</button>
-                <button class="city-btn">Orlando</button>
+                <button class="city">Austin</button><br>
+                <button class="city">Chicago</button><br>
+                <button class="city">New York</button>
+                <button class="city">Orlando</button>
             </div>
 
         </aside>
@@ -54,16 +54,55 @@
                 $.ajax({
                     url: queryURL,
                     method: "GET"
-                }).then(function (response) {
+
+                }).then(function(response) {
+                    console.log(response);
+                    var cityHtml = `
+                    <section>
+                        <h2>${response.Name}</h2>
+                            <p>Temperature: </p>
+                            <p>Humidity: </p>
+                            <p> Wind Speed: </p>
+                            <p>UV Index:<span id="uv">8.95</span></p>
+
+
+                    `
 
                 })
             }
 
             function renderButtons() {
                 $('.button-list').empty();
-
+                // console.log(response);
+                for (var i = 0; i < cities.length; i++){
+                    var c = $("<button>");
+                    c.addClass("city");
+                    c.attr("data-name", cities[i]);
+                    c.text(cities[i]);
+                    $(".button-list").append(c);
+                }
             }
 
+
+            
+            $('#search-btn').on("click", function(event){
+                event.preventDefault();
+                
+                // creating a variable named city, assigning text value to it
+                var city = $("#city-input").val().trim();
+                if (city !== null && city !== ""){
+                    // logging city to console
+                    console.log(city);
+
+                    // add city currently in textbox to the array cities
+                    cities.push(city);
+                }
+                
+            })
+
+            $(document).on("click", ".city", displayCityInfo);
+
+            renderButtons();
             // GIVEN a weather dashboard with form inputs
             // WHEN I search for a city
             // THEN I am presented with current and future conditions for that city and that city is added to the search history
