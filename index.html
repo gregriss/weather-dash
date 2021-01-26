@@ -35,18 +35,19 @@
                 </form>
             </div>
             <div class="button-list">
-                <button class="city">Austin</button><br>
-                <button class="city">Chicago</button><br>
-                <button class="city">New York</button>
-                <button class="city">Orlando</button>
+                <button class="city" data-name="Austin">Austin</button><br>
+                <button class="city" data-name="Chicago">Chicago</button><br>
+                <button class="city" data-name="New York">New York</button>
+                <button class="city" data-name="Orlando">Orlando</button>
             </div>
 
         </aside>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
             var cities = [];
-
+            var date = new Date().getDate();
             function displayCityInfo() {
+                $('.city-display').empty();
                 var city = $(this).attr("data-name");
                 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd";
 
@@ -57,22 +58,26 @@
 
                 }).then(function(response) {
                     console.log(response);
+
+                    // still need to convert temperature from Kelvin to Fahrenheit (find weather activity from before)
                     var cityHtml = `
                     <section>
-                        <h2>${response.Name}</h2>
-                            <p>Temperature: </p>
-                            <p>Humidity: </p>
-                            <p> Wind Speed: </p>
-                            <p>UV Index:<span id="uv">8.95</span></p>
+                        <h2>${response.name}${response.weather.icon}</h2>
+                            <p>Temperature: ${response.main.temp}</p>
+                            <p>Humidity: ${response.main.humidity}</p>
+                            <p> Wind Speed: ${response.wind.speed} mph</p>
+                            <p>UV Index:<span id="uv"></span></p>
 
 
                     `
+                    $('.city-display').append(cityHtml);
 
                 })
             }
 
+            // function that will display buttons for cities user has searched for
             function renderButtons() {
-                $('.button-list').empty();
+                // $('.button-list').empty();
                 // console.log(response);
                 for (var i = 0; i < cities.length; i++){
                     var c = $("<button>");
