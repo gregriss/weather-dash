@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="assets/style/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Weather Dashboard</h1>
+    </header>
+    <div class="container">
+
+        <main>
+            <div class="city">
+                <h2>City (1/28/2021)</h2>
+                <p>Temperature: </p>
+                <p>Humidity: </p>
+                <p> Wind Speed: </p>
+                <p>UV Index:<span id="uv">8.95</span></p>
+            </div>
+            <div class="five-day">
+                <h3>5-day Forecast: </h3>
+            </div>
+        </main>
+        <aside>
+            <div class="search">
+                <h3>Search for a City:</h3>
+                <form id="city-form">
+                    <input id="city-input" type="search" aria-label="Search">
+                    <button id="search-btn" type="submit"><img src="assets/images/search-white-27x27.png"></button>
+                </form>
+            </div>
+            <div class="button-list">
+                <button class="city-btn">Austin</button><br>
+                <button class="city-btn">Chicago</button><br>
+                <button class="city-btn">New York</button>
+                <button class="city-btn">Orlando</button>
+            </div>
+
+        </aside>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            var cities = [];
+
+            function displayCityInfo() {
+                var city = $(this).attr("data-name");
+                var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd";
+
+                // creates AJAX call for particular city button being clicked
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function (response) {
+
+                })
+            }
+
+            function renderButtons() {
+                $('.button-list').empty();
+
+            }
+
+            // GIVEN a weather dashboard with form inputs
+            // WHEN I search for a city
+            // THEN I am presented with current and future conditions for that city and that city is added to the search history
+            // WHEN I view current weather conditions for that city
+            // THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
+            // WHEN I view the UV index
+            // THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
+            // WHEN I view future weather conditions for that city
+            // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
+            // WHEN I click on a city in the search history
+            // THEN I am again presented with current and future conditions for that city
+            // WHEN I open the weather dashboard
+            // THEN I am presented with the last searched city forecast
+        </script>
+    </div>
+</body>
+
+</html>
