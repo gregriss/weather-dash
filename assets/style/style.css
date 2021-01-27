@@ -19,30 +19,24 @@ header {
     padding: 15px;
 }
 
-h2 {
-    padding: 4px;
-    margin-right: 0;
-}
-
+h2,
 p {
-    padding: 4px;
-    margin: 16px 0;
+    padding: 8px;
+    margin: 8px;
 }
 
-img {
-    /* display: inline; */
-    border: solid 1px black;
-}
 h3 {
     padding: 5px;
 }
 .container {
     display: flex;
     flex-direction: row-reverse;
+    justify-content: space-between;
 }
 
 .city-display {
-    padding: 16px;
+    height: auto;
+    padding: 8px;
     margin: 12px;
     border: 2px solid rgb(228, 227, 227);
     border-radius: 6px;
@@ -53,18 +47,15 @@ h3 {
 }
 main {
     width: 70%;
-    display: flex;
-    
 }
 
 aside {
-    padding: 5px 0 5px 10px;
+    padding: 5px 0 15px 10px;
     margin: 0;
     width: 30%;
     height: auto;
     background: rgb(240, 240, 240);
-    position: relative;
-    
+    /* position: relative; */
 }
 
 form {
@@ -98,6 +89,12 @@ button {
 button:hover {
     opacity: 0.85;
 }
+
+.city-display {
+    display: flex;
+    flex-direction: column;
+    background: rgb(168, 222, 255);
+}
 #search-btn {
     height: 46px;
     width: 46px;
@@ -111,6 +108,21 @@ button:hover {
     transition: 0.2s ease-in-out;
 }
   
+#search-icon {
+    margin: 0 2px 0 1px;
+}
+
+#weather-icon {
+    /* background:rgb(165, 165, 165); */
+    /* background: lightskyblue; */
+    /* border-radius: 52px; */
+    /* border-radius: 6px;
+    box-shadow: 5px 5px 15px lightskyblue; */
+    padding: 4px;
+    position: relative;
+    left: 5px;
+    top: 16px;
+}
 /* #uv {
     background: rgb(255, 58, 58);
     color: white;
