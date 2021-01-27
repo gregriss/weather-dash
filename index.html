@@ -16,11 +16,11 @@
 
         <main>
             <div class="city-display">
-                <h2>City (1/28/2021)</h2>
-                <p>Temperature: </p>
-                <p>Humidity: </p>
-                <p> Wind Speed: </p>
-                <p>UV Index:<span id="uv">8.95</span></p>
+                <h2 class="name">City</h2>
+                <p class="temp">Temperature: </p>
+                <p class="humid">Humidity: </p>
+                <p class="wind"> Wind Speed: </p>
+                <p class="uv-index">UV Index:<span id="uv"></span></p>
             </div>
             <div class="five-day">
                 <h3>5-day Forecast: </h3>
@@ -36,21 +36,25 @@
             </div>
             <div class="button-list">
                 <button class="city" data-name="Austin">Austin</button><br>
+                <button class="city" data-name="Houston">Houston</button>
                 <button class="city" data-name="Chicago">Chicago</button><br>
                 <button class="city" data-name="New York">New York</button>
                 <button class="city" data-name="Orlando">Orlando</button>
+                <button class="city" data-name="Los Angeles">Los Angeles</button>
+                
             </div>
 
         </aside>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
             var cities = [];
-            var date = new Date().getDate();
+            
+            var date = ([new Date().getMonth() + 1] + "/" + [new Date().getDay()] + "/" + [new Date().getFullYear()]);
             function displayCityInfo() {
                 $('.city-display').empty();
                 var city = $(this).attr("data-name");
                 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd";
-
+                
                 // creates AJAX call for particular city button being clicked
                 $.ajax({
                     url: queryURL,
@@ -59,22 +63,32 @@
                 }).then(function(response) {
                     console.log(response);
 
-                    // still need to convert temperature from Kelvin to Fahrenheit (find weather activity from before)
+                    // convert temperature Kelvin to Fahrenheit
+                    var tempF = (response.main.temp - 273.15) * 1.80 + 32;
+                    var icon = response.weather[0].icon;
+                    var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
+                    // still need to access UV index (use another API from openweather API?)
+
                     var cityHtml = `
                     <section>
-                        <h2>${response.name}${response.weather.icon}</h2>
-                            <p>Temperature: ${response.main.temp}</p>
-                            <p>Humidity: ${response.main.humidity}</p>
+                        <h2>${response.name} ${date}  <img src="${iconURL}" alt="weather icon"></h2>
+                            <p>Temperature: ${tempF.toFixed(2)}&deg F</p>
+                            <p>Humidity: ${response.main.humidity}%</p>
                             <p> Wind Speed: ${response.wind.speed} mph</p>
                             <p>UV Index:<span id="uv"></span></p>
 
 
                     `
                     $('.city-display').append(cityHtml);
+                    
+
+                    
+                    
+                    // var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
 
                 })
             }
-
+            // ${response.weather.icon}
             // function that will display buttons for cities user has searched for
             function renderButtons() {
                 // $('.button-list').empty();
@@ -102,7 +116,7 @@
                     // add city currently in textbox to the array cities
                     cities.push(city);
                 }
-                
+                displayCityInfo();
             })
 
             $(document).on("click", ".city", displayCityInfo);

@@ -1,9 +1,6 @@
-/* box-sizing: border-box; 
-research more into what this does ^^ */
 * {
 	vertical-align: baseline;
 	border: 0 none;
-	/* outline: 0; */
 	padding: 0;
 	margin: 0;
 }
@@ -22,11 +19,20 @@ header {
     padding: 15px;
 }
 
-h2,
-p {
-    margin: 24px 0;
+h2 {
+    padding: 4px;
+    margin-right: 0;
 }
 
+p {
+    padding: 4px;
+    margin: 16px 0;
+}
+
+img {
+    /* display: inline; */
+    border: solid 1px black;
+}
 h3 {
     padding: 5px;
 }
@@ -47,7 +53,10 @@ h3 {
 }
 main {
     width: 70%;
+    display: flex;
+    
 }
+
 aside {
     padding: 5px 0 5px 10px;
     margin: 0;
@@ -102,10 +111,10 @@ button:hover {
     transition: 0.2s ease-in-out;
 }
   
-#uv {
+/* #uv {
     background: rgb(255, 58, 58);
     color: white;
     padding: 5px;
     border-radius: 4px;
-}
+} */
 
