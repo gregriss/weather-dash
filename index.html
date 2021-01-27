@@ -102,12 +102,15 @@
                 
                 // creating a variable named city, assigning text value to it
                 var city = $("#city-input").val().trim();
-                if (city !== null && city !== ""){
+                // was if (city !== null && city !== "")
+                if (city !== ""){
                     // logging city to console
-                    console.log(city);
+                    // console.log(city);
 
                     // add city currently in textbox to the array cities
                     cities.push(city);
+                    // calling renderButtons function so that all cities appear on the page
+                    renderButtons();
                 }
                 displayCityInfo();
             })
