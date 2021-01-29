@@ -47,6 +47,27 @@ h3 {
 .five-day {
     margin: 12px;
 }
+
+/* .low {
+    background-color: green;
+}
+
+.moderate {
+    background-color: yellow;
+}
+
+.high {
+    background-color: orange;
+}
+
+.very-high {
+    background-color: red;
+}
+
+.extreme {
+    background-color: purple; 
+} */
+
 main {
     width: 70%;
 }
@@ -85,7 +106,6 @@ button {
     margin: 0 4px;
     text-align: left;
     
-      /* display: inline-block; */
 }
 
 button:hover {
@@ -126,10 +146,10 @@ button:hover {
     left: 5px;
     top: 16px;
 }
-/* #uv {
-    background: rgb(255, 58, 58);
+
+#uv {
     color: white;
-    padding: 5px;
+    padding: 6px;
     border-radius: 4px;
-} */
+}
 
