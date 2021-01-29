@@ -28,32 +28,32 @@
                     <section id="day-1" class="forecast">
                         <h4>1/1/21</h4>
                         <img src="" alt="weather 1">
-                        <p>Temp: </p>
-                        <p>Humidity: </p>
+                        <p class="temp-5">Temp: </p>
+                        <p class="humid-5">Humidity: </p>
                     </section>
                     <section id="day-2" class="forecast">
                         <h4>1/2/21</h4>
                         <img src="" alt="weather 2">
-                        <p>Temp: </p>
-                        <p>Humidity: </p>
+                        <p class="temp-5">Temp: </p>
+                        <p class="humid-5">Humidity: </p>
                     </section>
                     <section id="day-3" class="forecast">
                         <h4>1/3/21</h4>
                         <img src="" alt="weather 3">
-                        <p>Temp: </p>
-                        <p>Humidity: </p>
+                        <p class="temp-5">Temp: </p>
+                        <p class="humid-5">Humidity: </p>
                     </section>
                     <section id="day-4" class="forecast">
                         <h4>1/4/21</h4>
                         <img src="" alt="weather 4">
-                        <p>Temp: </p>
-                        <p>Humidity: </p>
+                        <p class="temp-5">Temp: </p>
+                        <p class="humid-5">Humidity: </p>
                     </section>
                     <section id="day-5" class="forecast">
                         <h4>1/5/21</h4>
                         <img src="" alt="weather 5">
-                        <p>Temp: </p>
-                        <p>Humidity: </p>
+                        <p class="temp-5">Temp: </p>
+                        <p class="humid-5">Humidity: </p>
                     </section>
                 </div>
             </div>
@@ -133,26 +133,9 @@
                             c.text(cities[i]);
                             $(".button-list").append(c);
                         }
-
-
                     }
-                    // else {
-                    //     var cities = [];
-                    // }
-
-                    // for loop was here ; going to try putting it inside if statement
-                    // for (var i = 0; i < cities.length; i++) {
-                    //     var c = $("<button>");
-                    //     c.addClass("city");
-                    //     c.attr("data-name", cities[i]);
-                    //     c.text(cities[i]);
-                    //     $(".button-list").append(c);
-                    // }
                 }
                 renderButtons();
-                // function to display the last searched city's info on the page
-
-
 
                 // function to display a city's weather on the dashboard
                 // includes ajax call and creating html elements with response data
@@ -194,7 +177,6 @@
                                     <p>Temperature: ${tempF.toFixed(2)}&deg F</p>
                                     <p>Humidity: ${response.main.humidity}%</p>
                                     <p> Wind Speed: ${response.wind.speed} mph</p>
-                            
                                 `
                         $('.city-display').append(cityHtml);
 
@@ -208,11 +190,14 @@
                             // console.log(response);
                             // getting uv index data
                             var uviData = response.value;
-                            console.log(response.value);
+                            console.log(uviData);
 
-
-                            if (Number(uviData) < 3) {
-                                $('#uv').addClass("low");
+                            var cityUvHtml = `
+                                <p>UV Index: <span id="uv">${uviData}</span></p> 
+                            </section>
+                        `
+                            if (uviData < 3) {
+                                $('span').addClass("low");
                             }
                             else if (uviData >= 3 && uviData < 6) {
                                 $('#uv').addClass("moderate");
@@ -226,12 +211,8 @@
                             else if (uviData >= 11) {
                                 $('#uv').addClass("extreme");
                             }
-                            // continue for all colors in the UV spectrum...
-
-                            var cityUvHtml = `
-                                <p>UV Index: <span id="uv">${uviData}</span></p> 
-                            </section>
-                        `
+                            
+                            
                             $('.city-display').append(cityUvHtml);
 
                         })
