@@ -48,7 +48,43 @@
             var date = ([new Date().getMonth() + 1] + "/" + [new Date().getDate()] + "/" + [new Date().getFullYear()]);
 
             $(document).ready(function () {
-            
+                    if (localStorage.getItem("Cities")) {
+                        cities = JSON.parse(localStorage.getItem("Cities"));
+                        var lastCity = cities.slice(-1);
+                }
+            // creating a function to display info for the city that was last searched for
+            function renderLastCity () {
+                var city = lastCity;
+                var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd";
+                
+                $.ajax({
+                        url: queryURL,
+                        method: "GET"
+
+                    }).then(function (response) {
+                        // console.log(response);
+
+                        // convert temperature Kelvin to Fahrenheit
+                        var tempF = (response.main.temp - 273.15) * 1.80 + 32;
+                        var icon = response.weather[0].icon;
+                        var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
+                        
+                        // defining latitude and longitude to use for UV Index api call
+                        // var uviLat = response.coord.lat;
+                        // var uviLon = response.coord.lon;
+                        var cityHtml = `
+                            <section>
+                                <h2>${response.name} (${date}) <img id="weather-icon" src="${iconURL}" alt="weather icon" height="52px" width="52px"></h2>
+                                    <p>Temperature: ${tempF.toFixed(2)}&deg F</p>
+                                    <p>Humidity: ${response.main.humidity}%</p>
+                                    <p> Wind Speed: ${response.wind.speed} mph</p>
+                            
+                                `
+                        $('.city-display').append(cityHtml);
+                    });
+           
+            };
+            renderLastCity();
             // function that will display buttons for cities user has searched for
             function renderButtons() {
                     $('.button-list').empty();
@@ -57,7 +93,6 @@
                         // if so, parsing that info and creating buttons for each city 
                         if (localStorage.getItem("Cities")) {
                             cities = JSON.parse(localStorage.getItem("Cities"));
-                            // localStorage.getItem("Cities", JSON.parse(cities));
 
                             for (var i = 0; i < cities.length; i++) {   
                                 var c = $("<button>");
@@ -66,6 +101,8 @@
                                 c.text(cities[i]);
                                 $(".button-list").append(c);
                             }
+                            
+                            // console.log(lastCity);
                         }
                         // else {
                         //     var cities = [];
@@ -81,17 +118,24 @@
                     // }
                 }
                 renderButtons();
+                // function to display the last searched city's info on the page
+                
+                
+
                 // function to display a city's weather on the dashboard
                 // includes ajax call and creating html elements with response data
                 function displayCityInfo() {
                     $('.city-display').empty();
                     // trying val instead of data-name
-                    // need if 
+                    // need if statement
                     
                     var city = $('#city-input').val();
                     if (city === ""){
                         city = $(this).attr("data-name");
                     }
+                    // else if (city === undefined){
+                    //     city = lastCity;
+                    // }
                     console.log("City = " + city);
                     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd";
 
@@ -133,22 +177,22 @@
                             // getting uv index data
                             var uviData = response.value;
                             console.log(response.value);
-                            $('#uv')
-                            if (uviData < 3) {
-                                $('#uv').css("background-color", "green");
-
+                           
+                            
+                            if (Number(uviData) < 3) {
+                                $('#uv').addClass("low");
                             }
                             else if (uviData >=3 && uviData < 6){
-                                $('#uv').css("background-color", "yellow");
+                                $('#uv').addClass("moderate");
                             }
                             else if (uviData >=6 && uviData < 8){
-                                $('#uv').css("background-color", "orange");
+                                $('#uv').addClass("high");
                             }
                             else if (uviData >= 8 && uviData < 11){
-                                $('#uv').css("background-color", "red");
+                                $('#uv').addClass("very-high");
                             }
                             else if (uviData >= 11) {
-                                $('#uv').css("background-color", "purple");
+                                $('#uv').addClass("extreme");
                             }
                             // continue for all colors in the UV spectrum...
                             

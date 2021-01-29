@@ -28,45 +28,6 @@ p {
 h3 {
     padding: 5px;
 }
-.container {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-}
-
-.city-display {
-    height: auto;
-    padding: 8px;
-    margin: 12px;
-    /* border: 2px solid rgb(228, 227, 227); */
-    border: 2px solid rgb(53, 53, 53);
-    border-radius: 6px;
-    box-shadow: 3px 3px 10px  rgb(53, 53, 53);
-}
-
-.five-day {
-    margin: 12px;
-}
-
-/* .low {
-    background-color: green;
-}
-
-.moderate {
-    background-color: yellow;
-}
-
-.high {
-    background-color: orange;
-}
-
-.very-high {
-    background-color: red;
-}
-
-.extreme {
-    background-color: purple; 
-} */
 
 main {
     width: 70%;
@@ -86,6 +47,7 @@ form {
     justify-content: flex-start;
 
 }
+
 input {
     padding: 7px;
     margin: 6px -5px 8px 5px;
@@ -112,12 +74,51 @@ button:hover {
     opacity: 0.85;
 }
 
+.container {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
 .city-display {
     display: flex;
     flex-direction: column;
     align-content: space-around;
     background: rgb(168, 222, 255);
+    height: auto;
+    padding: 8px;
+    margin: 12px;
+    /* border: 2px solid rgb(228, 227, 227); */
+    border: 2px solid rgb(53, 53, 53);
+    border-radius: 6px;
+    box-shadow: 3px 3px 10px  rgb(53, 53, 53);
 }
+
+.five-day {
+    margin: 12px;
+}
+
+.low {
+    background-color: green;
+}
+
+.moderate {
+    background-color: yellow;
+}
+
+.high {
+    background-color: orange;
+    z-index: 1;
+}
+
+.very-high {
+    background-color: red;
+}
+
+.extreme {
+    background-color: purple; 
+}
+
 #search-btn {
     height: 46px;
     width: 46px;
@@ -136,20 +137,15 @@ button:hover {
 }
 
 #weather-icon {
-    /* background:rgb(165, 165, 165); */
-    /* background: lightskyblue; */
-    /* border-radius: 52px; */
-    /* border-radius: 6px;
-    box-shadow: 5px 5px 15px lightskyblue; */
     padding: 4px;
     position: relative;
     left: 5px;
     top: 16px;
 }
 
-#uv {
+/* #uv {
     color: white;
     padding: 6px;
     border-radius: 4px;
-}
+} */
 
