@@ -89,9 +89,17 @@
                 if (localStorage.getItem("Cities")) {
                     cities = JSON.parse(localStorage.getItem("Cities"));
                     var lastCity = cities.slice(-1);
+                    // calling function to  render most recently searched city's current weather
+                    renderLastCity();
+                    // calling function to render most recently searched city's 5-day forecast
+                    renderLastForecast();
+                    
                 }
+                renderButtons();
                 // creating a function to display info for the city that was last searched for
                 function renderLastCity() {
+                    // removing placeholder text
+                    $('.city-display').empty();
                     var city = lastCity;
                     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + key;
 
@@ -156,9 +164,7 @@
 
                         })
                     });
-
                 };
-                renderLastCity();
                 
                 function renderLastForecast() {
                     $('.row').empty();
@@ -220,31 +226,31 @@
                         var forecastHtml = `
                                     <section id="day-1" class="forecast">
                                     <h4>${day1}</h4>
-                                    <img src="${icon1URL}" alt="weather 1">
+                                    <img src="${icon1URL}" alt="weather 1" height="60px" width="60px">
                                     <p class="temp-5">Temp: ${tempF1.toFixed(2)}&deg F</p>
                                     <p class="humid-5">Humidity: ${humid1}%</p>
                                 </section>
                                 <section id="day-2" class="forecast">
                                     <h4>${day2}</h4>
-                                    <img src="${icon2URL}" alt="weather 2">
+                                    <img src="${icon2URL}" alt="weather 2" height="60px" width="60px">
                                     <p class="temp-5">Temp: ${tempF2.toFixed(2)}&deg F</p>
                                     <p class="humid-5">Humidity: ${humid2}%</p>
                                 </section>
                                 <section id="day-3" class="forecast">
                                     <h4>${day3}</h4>
-                                    <img src="${icon3URL}" alt="weather 3">
+                                    <img src="${icon3URL}" alt="weather 3" height="60px" width="60px">
                                     <p class="temp-5">Temp: ${tempF3.toFixed(2)}&deg F</p>
                                     <p class="humid-5">Humidity: ${humid3}%</p>
                                 </section>
                                 <section id="day-4" class="forecast">
                                     <h4>${day4}</h4>
-                                    <img src="${icon4URL}" alt="weather 4">
+                                    <img src="${icon4URL}" alt="weather 4" height="60px" width="60px">
                                     <p class="temp-5">Temp: ${tempF4.toFixed(2)}&deg F</p>
                                     <p class="humid-5">Humidity: ${humid4}%</p>
                                 </section>
                                 <section id="day-5" class="forecast">
                                     <h4>${day5}</h4>
-                                    <img src="${icon5URL}" alt="weather 5">
+                                    <img src="${icon5URL}" alt="weather 5" height="60px" width="60px">
                                     <p class="temp-5">Temp: ${tempF5.toFixed(2)}&deg F</p>
                                     <p class="humid-5">Humidity: ${humid5}%</p>
                                 </section>
@@ -255,13 +261,10 @@
 
                 };
 
-                
-                // calling function to render most recently displayed forecast
-                renderLastForecast();
                 // function that will display buttons for cities user has searched for
                 function renderButtons() {
+                    // var city = $('#city-input').val();
                     $('.button-list').empty();
-                    $('.city-display').empty();
                     // checking if any city info is present in local storage
                     // if so, parsing that info and creating buttons for each city 
                     if (localStorage.getItem("Cities")) {
@@ -275,8 +278,18 @@
                             $(".button-list").append(c);
                         }
                     }
+                    else {
+                        if($("#city-input").val() !== ""){
+                        var city = $("#city-input").val().trim();
+                        var c = $("<button>");
+                            c.addClass("city");
+                            c.attr("data-name", city);
+                            c.text(city);
+                            $(".button-list").append(c);
+                        }
+                    }
                 }
-                renderButtons();
+                // renderButtons();
 
                 // function to display a city's weather on the dashboard
                 // includes ajax call and creating html elements with response data
@@ -422,31 +435,31 @@
                         var forecastHtml = `
                         <section id="day-1" class="forecast">
                         <h4>${day1}</h4>
-                        <img src="${icon1URL}" alt="weather 1">
+                        <img src="${icon1URL}" alt="weather 1" height="60px" width="60px">
                         <p class="temp-5">Temp: ${tempF1.toFixed(2)}&deg F</p>
                         <p class="humid-5">Humidity: ${humid1}%</p>
                     </section>
                     <section id="day-2" class="forecast">
                         <h4>${day2}</h4>
-                        <img src="${icon2URL}" alt="weather 2">
+                        <img src="${icon2URL}" alt="weather 2" height="60px" width="60px">
                         <p class="temp-5">Temp: ${tempF2.toFixed(2)}&deg F</p>
                         <p class="humid-5">Humidity: ${humid2}%</p>
                     </section>
                     <section id="day-3" class="forecast">
                         <h4>${day3}</h4>
-                        <img src="${icon3URL}" alt="weather 3">
+                        <img src="${icon3URL}" alt="weather 3" height="60px" width="60px">
                         <p class="temp-5">Temp: ${tempF3.toFixed(2)}&deg F</p>
                         <p class="humid-5">Humidity: ${humid3}%</p>
                     </section>
                     <section id="day-4" class="forecast">
                         <h4>${day4}</h4>
-                        <img src="${icon4URL}" alt="weather 4">
+                        <img src="${icon4URL}" alt="weather 4" height="60px" width="60px">
                         <p class="temp-5">Temp: ${tempF4.toFixed(2)}&deg F</p>
                         <p class="humid-5">Humidity: ${humid4}%</p>
                     </section>
                     <section id="day-5" class="forecast">
                         <h4>${day5}</h4>
-                        <img src="${icon5URL}" alt="weather 5">
+                        <img src="${icon5URL}" alt="weather 5" height="60px" width="60px">
                         <p class="temp-5">Temp: ${tempF5.toFixed(2)}&deg F</p>
                         <p class="humid-5">Humidity: ${humid5}%</p>
                     </section>
@@ -470,7 +483,7 @@
                         // add city currently in textbox to the array cities
                         cities.push(city);
 
-                        // localStorage.setItem("Cities", JSON.stringify(cities));
+                        localStorage.setItem("Cities", JSON.stringify(cities));
                         // calling renderButtons function so that all cities appear on the page
 
                         renderButtons();
