@@ -147,23 +147,19 @@
                                 
                                 if (Number(uviData) < 3) {
                                 $('#uv').addClass("low");
-                            }
-                            else if (Number(uviData) >= 3 && uviData < 6) {
-                                $('#uv').addClass("moderate");
-                            }
-                            else if (Number(uviData) >= 6 && uviData < 8) {
-                                $('#uv').addClass("high");
-                            }
-                            else if (Number(uviData) >= 8 && uviData < 11) {
-                                $('#uv').addClass("very-high");
-                            }
-                            else if (Number(uviData) >= 11) {
-                                $('#uv').addClass("extreme");
-                            }
-                                
-                                
-                                
-
+                                }
+                                else if (Number(uviData) >= 3 && uviData < 6) {
+                                    $('#uv').addClass("moderate");
+                                }
+                                else if (Number(uviData) >= 6 && uviData < 8) {
+                                    $('#uv').addClass("high");
+                                }
+                                else if (Number(uviData) >= 8 && uviData < 11) {
+                                    $('#uv').addClass("very-high");
+                                }
+                                else if (Number(uviData) >= 11) {
+                                    $('#uv').addClass("extreme");
+                                }
                         })
                     });
                 };
