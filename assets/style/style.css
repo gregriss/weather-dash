@@ -40,7 +40,7 @@ main {
 aside {
     padding: 5px 0 15px 10px;
     width: 28%;
-    height: auto;
+    height: 100%;
     background: rgb(240, 240, 240);
 }
 
@@ -112,29 +112,32 @@ button:hover {
 }
 
 #uv {
-    color: white;
     padding: 6px;
     border-radius: 4px;
 }
 
 .low {
+    color: white;
     background: green;
 }
 
 .moderate {
-    background: yellow;
+    background: rgb(255, 255, 0);
+    color: black;
 }
 
 .high {
+    color: black;
     background: orange;
-    z-index: 1;
 }
 
 .very-high {
+    color: white;
     background: red;
 }
 
 .extreme {
+    color: white;
     background: purple; 
 }
 
@@ -161,6 +164,11 @@ button:hover {
     margin: 0;
 }
 
+.start-img {
+    height: 60px;
+    width: 60px;
+    opacity: 0.85;
+}
 #search-btn {
     height: 46px;
     width: 46px;

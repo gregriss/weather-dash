@@ -26,32 +26,32 @@
                 <h3>5-day Forecast: </h3>
                 <div class="row">
                     <section id="day-1" class="forecast">
-                        <h4>1/1/21</h4>
-                        <img src="" alt="weather 1">
+                        <h4>?/?/21</h4>
+                        <img class="start-img" src="https://openweathermap.org/img/wn/10d@2x.png" alt="weather 1">
                         <p class="temp-5">Temp: </p>
                         <p class="humid-5">Humidity: </p>
                     </section>
                     <section id="day-2" class="forecast">
-                        <h4>1/2/21</h4>
-                        <img src="" alt="weather 2">
+                        <h4>?/?/21</h4>
+                        <img class="start-img" src="https://openweathermap.org/img/wn/10d@2x.png" alt="weather 2">
                         <p class="temp-5">Temp: </p>
                         <p class="humid-5">Humidity: </p>
                     </section>
                     <section id="day-3" class="forecast">
-                        <h4>1/3/21</h4>
-                        <img src="" alt="weather 3">
+                        <h4>?/?/21</h4>
+                        <img class="start-img" src="https://openweathermap.org/img/wn/10d@2x.png" alt="weather 3">
                         <p class="temp-5">Temp: </p>
                         <p class="humid-5">Humidity: </p>
                     </section>
                     <section id="day-4" class="forecast">
-                        <h4>1/4/21</h4>
-                        <img src="" alt="weather 4">
+                        <h4>?/?/21</h4>
+                        <img class="start-img" src="https://openweathermap.org/img/wn/10d@2x.png" alt="weather 4">
                         <p class="temp-5">Temp: </p>
                         <p class="humid-5">Humidity: </p>
                     </section>
                     <section id="day-5" class="forecast">
-                        <h4>1/5/21</h4>
-                        <img src="" alt="weather 5">
+                        <h4>?/?/21</h4>
+                        <img class="start-img" src="https://openweathermap.org/img/wn/10d@2x.png" alt="weather 5">
                         <p class="temp-5">Temp: </p>
                         <p class="humid-5">Humidity: </p>
                     </section>
@@ -120,7 +120,7 @@
                         var uviLon = response.coord.lon;
                         var cityHtml = `
                             <section>
-                                <h2 class="name">${response.name} (${date}) <img id="weather-icon" src="${iconURL}" alt="weather icon" height="52px" width="52px"></h2>
+                                <h2 class="name">${response.name} (${date}) <img id="weather-icon" src="${iconURL}" alt="weather icon" height="60px" width="60px"></h2>
                                     <p>Temperature: ${tempF.toFixed(2)}&deg F</p>
                                     <p>Humidity: ${response.main.humidity}%</p>
                                     <p> Wind Speed: ${response.wind.speed} mph</p>
@@ -138,29 +138,31 @@
                             // console.log(response);
                             // getting uv index data
                             var uviData = response.value;
-                            console.log(uviData);
+                            // console.log(uviData);
 
                             var cityUvHtml = `
                                 <p>UV Index: <span id="uv">${uviData}</span></p> 
                                 `
-                                if (uviData < 3) {
-                                    $('span').addClass("low");
-                                }
-                                else if (uviData >= 3 && uviData < 6) {
-                                    $('#uv').addClass("moderate");
-                                }
-                                else if (uviData >= 6 && uviData < 8) {
-                                    $('#uv').addClass("high");
-                                }
-                                else if (uviData >= 8 && uviData < 11) {
-                                    $('#uv').addClass("very-high");
-                                }
-                                else if (uviData >= 11) {
-                                    $('#uv').addClass("extreme");
-                                }
-                                
-                                
                                 $('.city-display').append(cityUvHtml);
+                                
+                                if (Number(uviData) < 3) {
+                                $('#uv').addClass("low");
+                            }
+                            else if (Number(uviData) >= 3 && uviData < 6) {
+                                $('#uv').addClass("moderate");
+                            }
+                            else if (Number(uviData) >= 6 && uviData < 8) {
+                                $('#uv').addClass("high");
+                            }
+                            else if (Number(uviData) >= 8 && uviData < 11) {
+                                $('#uv').addClass("very-high");
+                            }
+                            else if (Number(uviData) >= 11) {
+                                $('#uv').addClass("extreme");
+                            }
+                                
+                                
+                                
 
                         })
                     });
@@ -289,23 +291,16 @@
                         }
                     }
                 }
-                // renderButtons();
-
                 // function to display a city's weather on the dashboard
                 // includes ajax call and creating html elements with response data
                 function displayCityInfo() {
                     $('.city-display').empty();
-                    // trying val instead of data-name
-                    // need if statement
-
+                    
                     var city = $('#city-input').val();
                     if (city === "") {
                         city = $(this).attr("data-name");
                     }
-                    // else if (city === undefined){
-                    //     city = lastCity;
-                    // }
-                    // console.log("City = " + city);
+                    
                     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd";
 
                     console.log(city);
@@ -348,29 +343,28 @@
                             var cityUvHtml = `
                                 <p>UV Index: <span id="uv">${uviData}</span></p> 
                         `
-                            if (uviData < 3) {
-                                $('span').addClass("low");
+                        $('.city-display').append(cityUvHtml);
+
+                            if (Number(uviData) < 3) {
+                                $('#uv').addClass("low");
                             }
-                            else if (uviData >= 3 && uviData < 6) {
+                            else if (Number(uviData) >= 3 && uviData < 6) {
                                 $('#uv').addClass("moderate");
                             }
-                            else if (uviData >= 6 && uviData < 8) {
+                            else if (Number(uviData) >= 6 && uviData < 8) {
                                 $('#uv').addClass("high");
                             }
-                            else if (uviData >= 8 && uviData < 11) {
+                            else if (Number(uviData) >= 8 && uviData < 11) {
                                 $('#uv').addClass("very-high");
                             }
-                            else if (uviData >= 11) {
+                            else if (Number(uviData) >= 11) {
                                 $('#uv').addClass("extreme");
                             }
                             
                             
-                            $('.city-display').append(cityUvHtml);
-
                         })
                     })
                 };
-
                 function displayFiveDayInfo() {
                     $('.row').empty();
 
@@ -467,7 +461,6 @@
                         $(".row").append(forecastHtml);
                         // var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
                  })
-
                 };
                 // }
                 $('#search-btn').on("click", function (event) {
@@ -504,9 +497,6 @@
 
                 $(document).on("click", ".city", displayCityInfo); 
                 $(document).on("click", ".city", displayFiveDayInfo);
-                   
-                
-                
             });
             // GIVEN a weather dashboard with form inputs
             // WHEN I search for a city
