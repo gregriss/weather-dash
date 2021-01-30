@@ -42,7 +42,6 @@ aside {
     width: 28%;
     height: auto;
     background: rgb(240, 240, 240);
-    /* position: relative; */
 }
 
 form {
@@ -53,7 +52,6 @@ form {
 input {
     padding: 7px;
     margin: 6px -5px 12px 5px;
-    /* margin-right: -6px; */
     border: 2px solid lightgray;
     border-radius: 6px 0 0 6px;
     font-size: 20px;
@@ -79,7 +77,8 @@ button:hover {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
-    padding-right: 10px;
+    padding: 0 8px 0 0;
+    max-width: 1500px;
 }
 
 .city-display {
@@ -99,14 +98,19 @@ button:hover {
     padding-top: -4px;
     margin-top: -4px;
 }
+
 .five-day {
     margin: 12px;
+    /* height: 300px; */
+    height: 50%;
 }
 
 .row {
     display: flex;
     justify-content: space-between;
+    height: 100%;
 }
+
 #uv {
     color: white;
     padding: 6px;
@@ -145,8 +149,10 @@ button:hover {
     border-radius: 4px;
     box-shadow: 2px 2px 8px  rgb(53, 53, 53);
     margin: 5px;
-    height: 160px;
-    width: 125px;
+    height: 85%;
+    width: 16%;
+    /* height: 160px;
+    width: 125px; */
 }
 
 .temp-5,

@@ -79,7 +79,13 @@
             // variable with Date() function to convert current date into (Month/Date/Year) format on page
             var date = ([new Date().getMonth() + 1] + "/" + [new Date().getDate()] + "/" + [new Date().getFullYear()]);
 
+            
             $(document).ready(function () {
+
+                var key = "b406b96ea8ac39d55397323d0de502dd";
+                var key2 = "df470bf7afee7c2f963a2043b8a1d2c3";
+
+
                 if (localStorage.getItem("Cities")) {
                     cities = JSON.parse(localStorage.getItem("Cities"));
                     var lastCity = cities.slice(-1);
@@ -87,7 +93,7 @@
                 // creating a function to display info for the city that was last searched for
                 function renderLastCity() {
                     var city = lastCity;
-                    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd";
+                    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + key;
 
                     $.ajax({
                         url: queryURL,
@@ -102,8 +108,8 @@
                         var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
 
                         // defining latitude and longitude to use for UV Index api call
-                        // var uviLat = response.coord.lat;
-                        // var uviLon = response.coord.lon;
+                        var uviLat = response.coord.lat;
+                        var uviLon = response.coord.lon;
                         var cityHtml = `
                             <section>
                                 <h2 class="name">${response.name} (${date}) <img id="weather-icon" src="${iconURL}" alt="weather icon" height="52px" width="52px"></h2>
@@ -113,10 +119,145 @@
                             
                                 `
                         $('.city-display').append(cityHtml);
+
+                        var uviURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + uviLat + "&lon=" + uviLon + "&appid=b406b96ea8ac39d55397323d0de502dd";
+                        // make a separate function to call here rather than 
+                        $.ajax({
+                            url: uviURL,
+                            method: "GET"
+
+                        }).then(function (response) {
+                            // console.log(response);
+                            // getting uv index data
+                            var uviData = response.value;
+                            console.log(uviData);
+
+                            var cityUvHtml = `
+                                <p>UV Index: <span id="uv">${uviData}</span></p> 
+                                `
+                                if (uviData < 3) {
+                                    $('span').addClass("low");
+                                }
+                                else if (uviData >= 3 && uviData < 6) {
+                                    $('#uv').addClass("moderate");
+                                }
+                                else if (uviData >= 6 && uviData < 8) {
+                                    $('#uv').addClass("high");
+                                }
+                                else if (uviData >= 8 && uviData < 11) {
+                                    $('#uv').addClass("very-high");
+                                }
+                                else if (uviData >= 11) {
+                                    $('#uv').addClass("extreme");
+                                }
+                                
+                                
+                                $('.city-display').append(cityUvHtml);
+
+                        })
                     });
 
                 };
                 renderLastCity();
+                
+                function renderLastForecast() {
+                    $('.row').empty();
+                    var city = lastCity;
+
+                    var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + key2;
+                    $.ajax({
+                        url: queryURL2,
+                        method: "GET"
+
+                    }).then(function (response) {
+                        console.log(response);
+                        // i should organize these into objects? or a for loop?
+                        // const today = new Date()
+                        // const tomorrow = new Date(today)
+                        // tomorrow.setDate(tomorrow.getDate() + 1)
+                        var day1 = response.list[1].dt_txt;
+                        var day2 = response.list[9].dt_txt;
+                        var day3 = response.list[17].dt_txt;
+                        var day4 = response.list[25].dt_txt;
+                        var day5 = response.list[33].dt_txt;
+                        // var tmrw = response.list[1].dt_txt;
+                        // var day1 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 1] + "/" + [new Date().getFullYear()]);
+                        // var day2 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 2] + "/" + [new Date().getFullYear()]);
+                        // var day3 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 3] + "/" + [new Date().getFullYear()]);
+                        // var day4 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 4] + "/" + [new Date().getFullYear()]);
+                        // var day5 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 5] + "/" + [new Date().getFullYear()]);
+                        // variables for image representing weather for 5 day forecast
+                        
+                        var icon1 = response.list[1].weather[0].icon;
+                        var icon1URL = "https://openweathermap.org/img/wn/" + icon1 + "@2x.png"
+                        
+                        var icon2 = response.list[9].weather[0].icon;
+                        var icon2URL = "https://openweathermap.org/img/wn/" + icon2 + "@2x.png"
+                        
+                        var icon3 = response.list[17].weather[0].icon;
+                        var icon3URL = "https://openweathermap.org/img/wn/" + icon3 + "@2x.png"
+                        
+                        var icon4 = response.list[25].weather[0].icon;
+                        var icon4URL = "https://openweathermap.org/img/wn/" + icon4 + "@2x.png"
+                        
+                        var icon5 = response.list[33].weather[0].icon;
+                        var icon5URL = "https://openweathermap.org/img/wn/" + icon5 + "@2x.png"
+
+                        // temp variables for each day in 5-day forecast
+                        var tempF1 = (response.list[1].main.temp - 273.15) * 1.80 + 32;
+                        var tempF2 = (response.list[9].main.temp - 273.15) * 1.80 + 32;
+                        var tempF3 = (response.list[17].main.temp - 273.15) * 1.80 + 32;
+                        var tempF4 = (response.list[25].main.temp - 273.15) * 1.80 + 32;
+                        var tempF5 = (response.list[33].main.temp - 273.15) * 1.80 + 32;
+
+                        // humidity variables for each day in 5-day forecast
+                        var humid1 = response.list[1].main.humidity;
+                        var humid2 = response.list[9].main.humidity;
+                        var humid3 = response.list[17].main.humidity;
+                        var humid4 = response.list[25].main.humidity;
+                        var humid5 = response.list[33].main.humidity;
+                        
+                        var forecastHtml = `
+                                    <section id="day-1" class="forecast">
+                                    <h4>${day1}</h4>
+                                    <img src="${icon1URL}" alt="weather 1">
+                                    <p class="temp-5">Temp: ${tempF1.toFixed(2)}&deg F</p>
+                                    <p class="humid-5">Humidity: ${humid1}%</p>
+                                </section>
+                                <section id="day-2" class="forecast">
+                                    <h4>${day2}</h4>
+                                    <img src="${icon2URL}" alt="weather 2">
+                                    <p class="temp-5">Temp: ${tempF2.toFixed(2)}&deg F</p>
+                                    <p class="humid-5">Humidity: ${humid2}%</p>
+                                </section>
+                                <section id="day-3" class="forecast">
+                                    <h4>${day3}</h4>
+                                    <img src="${icon3URL}" alt="weather 3">
+                                    <p class="temp-5">Temp: ${tempF3.toFixed(2)}&deg F</p>
+                                    <p class="humid-5">Humidity: ${humid3}%</p>
+                                </section>
+                                <section id="day-4" class="forecast">
+                                    <h4>${day4}</h4>
+                                    <img src="${icon4URL}" alt="weather 4">
+                                    <p class="temp-5">Temp: ${tempF4.toFixed(2)}&deg F</p>
+                                    <p class="humid-5">Humidity: ${humid4}%</p>
+                                </section>
+                                <section id="day-5" class="forecast">
+                                    <h4>${day5}</h4>
+                                    <img src="${icon5URL}" alt="weather 5">
+                                    <p class="temp-5">Temp: ${tempF5.toFixed(2)}&deg F</p>
+                                    <p class="humid-5">Humidity: ${humid5}%</p>
+                                </section>
+                        `
+                        $(".row").append(forecastHtml);
+                        // var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
+                 })
+
+                };
+
+                
+                // calling function to render most recently displayed forecast
+                renderLastForecast();
                 // function that will display buttons for cities user has searched for
                 function renderButtons() {
                     $('.button-list').empty();
@@ -151,10 +292,10 @@
                     // else if (city === undefined){
                     //     city = lastCity;
                     // }
-                    console.log("City = " + city);
+                    // console.log("City = " + city);
                     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd";
 
-                    // console.log(city);
+                    console.log(city);
                     // creates AJAX call for particular city button being clicked
                     $.ajax({
                         url: queryURL,
@@ -172,15 +313,14 @@
                         var uviLat = response.coord.lat;
                         var uviLon = response.coord.lon;
                         var cityHtml = `
-                            <section>
                                 <h2 class="name">${response.name} (${date}) <img id="weather-icon" src="${iconURL}" alt="weather icon" height="52px" width="52px"></h2>
                                     <p>Temperature: ${tempF.toFixed(2)}&deg F</p>
                                     <p>Humidity: ${response.main.humidity}%</p>
                                     <p> Wind Speed: ${response.wind.speed} mph</p>
                                 `
                         $('.city-display').append(cityHtml);
-
-                        var uviURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + uviLat + "&lon=" + uviLon + "&appid=b406b96ea8ac39d55397323d0de502dd";
+                                // temporarily commenting this out
+                        var uviURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + uviLat + "&lon=" + uviLon + "&appid=b406b96ea8ac39d55397323d0de502dd";
                         // make a separate function to call here rather than 
                         $.ajax({
                             url: uviURL,
@@ -194,7 +334,6 @@
 
                             var cityUvHtml = `
                                 <p>UV Index: <span id="uv">${uviData}</span></p> 
-                            </section>
                         `
                             if (uviData < 3) {
                                 $('span').addClass("low");
@@ -219,15 +358,104 @@
                     })
                 };
 
-                // function displayFiveDayInfo() {
-                //     $('.five-day').empty();
+                function displayFiveDayInfo() {
+                    $('.row').empty();
 
-                //     var city = $(this).attr("data-name");
+                    var city = $('#city-input').val();
+                    if (city === "") {
+                        city = $(this).attr("data-name");
+                    }
 
-                //     var queryURL = "api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd"; 
+                    var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + key2;
+                    $.ajax({
+                        url: queryURL2,
+                        method: "GET"
 
+                    }).then(function (response) {
+                        console.log(response);
+                        // i should organize these into objects? or a for loop?
+                        // const today = new Date()
+                        // const tomorrow = new Date(today)
+                        // tomorrow.setDate(tomorrow.getDate() + 1)
+                        var day1 = response.list[1].dt_txt;
+                        var day2 = response.list[9].dt_txt;
+                        var day3 = response.list[17].dt_txt;
+                        var day4 = response.list[25].dt_txt;
+                        var day5 = response.list[33].dt_txt;
+                        // var tmrw = response.list[1].dt_txt;
+                        // var day1 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 1] + "/" + [new Date().getFullYear()]);
+                        // var day2 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 2] + "/" + [new Date().getFullYear()]);
+                        // var day3 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 3] + "/" + [new Date().getFullYear()]);
+                        // var day4 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 4] + "/" + [new Date().getFullYear()]);
+                        // var day5 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 5] + "/" + [new Date().getFullYear()]);
+                        // variables for image representing weather for 5 day forecast
+                        
+                        var icon1 = response.list[1].weather[0].icon;
+                        var icon1URL = "https://openweathermap.org/img/wn/" + icon1 + "@2x.png"
+                        
+                        var icon2 = response.list[9].weather[0].icon;
+                        var icon2URL = "https://openweathermap.org/img/wn/" + icon2 + "@2x.png"
+                        
+                        var icon3 = response.list[17].weather[0].icon;
+                        var icon3URL = "https://openweathermap.org/img/wn/" + icon3 + "@2x.png"
+                        
+                        var icon4 = response.list[25].weather[0].icon;
+                        var icon4URL = "https://openweathermap.org/img/wn/" + icon4 + "@2x.png"
+                        
+                        var icon5 = response.list[33].weather[0].icon;
+                        var icon5URL = "https://openweathermap.org/img/wn/" + icon5 + "@2x.png"
 
+                        // temp variables for each day in 5-day forecast
+                        var tempF1 = (response.list[1].main.temp - 273.15) * 1.80 + 32;
+                        var tempF2 = (response.list[9].main.temp - 273.15) * 1.80 + 32;
+                        var tempF3 = (response.list[17].main.temp - 273.15) * 1.80 + 32;
+                        var tempF4 = (response.list[25].main.temp - 273.15) * 1.80 + 32;
+                        var tempF5 = (response.list[33].main.temp - 273.15) * 1.80 + 32;
 
+                        // humidity variables for each day in 5-day forecast
+                        var humid1 = response.list[1].main.humidity;
+                        var humid2 = response.list[9].main.humidity;
+                        var humid3 = response.list[17].main.humidity;
+                        var humid4 = response.list[25].main.humidity;
+                        var humid5 = response.list[33].main.humidity;
+                        
+                        var forecastHtml = `
+                        <section id="day-1" class="forecast">
+                        <h4>${day1}</h4>
+                        <img src="${icon1URL}" alt="weather 1">
+                        <p class="temp-5">Temp: ${tempF1.toFixed(2)}&deg F</p>
+                        <p class="humid-5">Humidity: ${humid1}%</p>
+                    </section>
+                    <section id="day-2" class="forecast">
+                        <h4>${day2}</h4>
+                        <img src="${icon2URL}" alt="weather 2">
+                        <p class="temp-5">Temp: ${tempF2.toFixed(2)}&deg F</p>
+                        <p class="humid-5">Humidity: ${humid2}%</p>
+                    </section>
+                    <section id="day-3" class="forecast">
+                        <h4>${day3}</h4>
+                        <img src="${icon3URL}" alt="weather 3">
+                        <p class="temp-5">Temp: ${tempF3.toFixed(2)}&deg F</p>
+                        <p class="humid-5">Humidity: ${humid3}%</p>
+                    </section>
+                    <section id="day-4" class="forecast">
+                        <h4>${day4}</h4>
+                        <img src="${icon4URL}" alt="weather 4">
+                        <p class="temp-5">Temp: ${tempF4.toFixed(2)}&deg F</p>
+                        <p class="humid-5">Humidity: ${humid4}%</p>
+                    </section>
+                    <section id="day-5" class="forecast">
+                        <h4>${day5}</h4>
+                        <img src="${icon5URL}" alt="weather 5">
+                        <p class="temp-5">Temp: ${tempF5.toFixed(2)}&deg F</p>
+                        <p class="humid-5">Humidity: ${humid5}%</p>
+                    </section>
+                        `
+                        $(".row").append(forecastHtml);
+                        // var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
+                 })
+
+                };
                 // }
                 $('#search-btn').on("click", function (event) {
                     event.preventDefault();
@@ -242,14 +470,17 @@
                         // add city currently in textbox to the array cities
                         cities.push(city);
 
-                        localStorage.setItem("Cities", JSON.stringify(cities));
+                        // localStorage.setItem("Cities", JSON.stringify(cities));
                         // calling renderButtons function so that all cities appear on the page
+
                         renderButtons();
                         // calling displayCityInfo function to display current weather for city user searched for
 
 
                         // $("#city-form #city-input").val('');
+                        // switching to just 5-day api response to see what happens
                         displayCityInfo();
+                        displayFiveDayInfo();
                     }
                     else {
                         alert("Please enter a new city name.");
@@ -258,9 +489,11 @@
                     $("#city-form #city-input").val('');
                 })
 
-                $(document).on("click", ".city", displayCityInfo);
-
-                // renderButtons();
+                $(document).on("click", ".city", displayCityInfo); 
+                $(document).on("click", ".city", displayFiveDayInfo);
+                   
+                
+                
             });
             // GIVEN a weather dashboard with form inputs
             // WHEN I search for a city
