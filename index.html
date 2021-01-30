@@ -128,7 +128,7 @@
                                 `
                         $('.city-display').append(cityHtml);
 
-                        var uviURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + uviLat + "&lon=" + uviLon + "&appid=b406b96ea8ac39d55397323d0de502dd";
+                        var uviURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + uviLat + "&lon=" + uviLon + "&appid=b406b96ea8ac39d55397323d0de502dd";
                         // make a separate function to call here rather than 
                         $.ajax({
                             url: uviURL,
@@ -174,7 +174,7 @@
                         method: "GET"
 
                     }).then(function (response) {
-                        console.log(response);
+                        // console.log(response);
                         // i should organize these into objects? or a for loop?
                         // const today = new Date()
                         // const tomorrow = new Date(today)
@@ -299,14 +299,14 @@
                     
                     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd";
 
-                    console.log(city);
+                    // console.log(city);
                     // creates AJAX call for particular city button being clicked
                     $.ajax({
                         url: queryURL,
                         method: "GET"
 
                     }).then(function (response) {
-                        console.log(response);
+                        // console.log(response);
 
                         // convert temperature Kelvin to Fahrenheit
                         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
@@ -334,7 +334,7 @@
                             // console.log(response);
                             // getting uv index data
                             var uviData = response.value;
-                            console.log(uviData);
+                            // console.log(uviData);
 
                             var cityUvHtml = `
                                 <p>UV Index: <span id="uv">${uviData}</span></p> 
@@ -356,8 +356,6 @@
                             else if (Number(uviData) >= 11) {
                                 $('#uv').addClass("extreme");
                             }
-                            
-                            
                         })
                     })
                 };
@@ -375,7 +373,7 @@
                         method: "GET"
 
                     }).then(function (response) {
-                        console.log(response);
+                        // console.log(response);
                         // i should organize these into objects? or a for loop?
                         // const today = new Date()
                         // const tomorrow = new Date(today)
@@ -455,7 +453,6 @@
                     </section>
                         `
                         $(".row").append(forecastHtml);
-                        // var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
                  })
                 };
                 // }
@@ -467,7 +464,7 @@
                     // was if (city !== null && city !== "")
                     if (city !== "" && cities.includes(city) === false) {
                         // logging city to console
-                        console.log(city);
+                        // console.log(city);
 
                         // add city currently in textbox to the array cities
                         cities.push(city);
@@ -478,9 +475,6 @@
                         renderButtons();
                         // calling displayCityInfo function to display current weather for city user searched for
 
-
-                        // $("#city-form #city-input").val('');
-                        // switching to just 5-day api response to see what happens
                         displayCityInfo();
                         displayFiveDayInfo();
                     }
