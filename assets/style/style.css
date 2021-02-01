@@ -89,7 +89,6 @@ button:hover {
     max-height: 600px;
     padding: 2px 12px;
     margin: 12px;
-    /* border: 2px solid rgb(228, 227, 227); */
     border: 2px solid rgb(53, 53, 53);
     border-radius: 6px;
     box-shadow: 3px 3px 10px  rgb(66, 66, 66);
@@ -102,7 +101,6 @@ button:hover {
 
 .five-day {
     margin: 12px;
-    /* height: 300px; */
     height: 30%;
     max-height: 400px;
     min-height: 200px;
@@ -157,8 +155,6 @@ button:hover {
     margin: 5px;
     height: 100%;
     width: 16%;
-    /* height: 160px;
-    width: 125px; */
 }
 
 .temp-5,
@@ -175,7 +171,6 @@ button:hover {
 #search-btn {
     height: 46px;
     width: 46px;
-    /* margin: 20px 5px 5px 0; */
     background: rgb(0, 132, 255);
     padding: 5px 0 0 8px;
     border: solid 2px rgb(240, 240, 240);
