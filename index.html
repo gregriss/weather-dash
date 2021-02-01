@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
+    <link rel="shortcut icon" href="https://openweathermap.org/img/wn/10d@2x.png">
     <link rel="stylesheet" href="assets/style/style.css">
 </head>
 
@@ -174,24 +175,14 @@
                         method: "GET"
 
                     }).then(function (response) {
-                        // console.log(response);
-                        // i should organize these into objects? or a for loop?
-                        // const today = new Date()
-                        // const tomorrow = new Date(today)
-                        // tomorrow.setDate(tomorrow.getDate() + 1)
+                        // retrieving date from ajax 
                         var day1 = response.list[1].dt_txt;
                         var day2 = response.list[9].dt_txt;
                         var day3 = response.list[17].dt_txt;
                         var day4 = response.list[25].dt_txt;
                         var day5 = response.list[33].dt_txt;
-                        // var tmrw = response.list[1].dt_txt;
-                        // var day1 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 1] + "/" + [new Date().getFullYear()]);
-                        // var day2 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 2] + "/" + [new Date().getFullYear()]);
-                        // var day3 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 3] + "/" + [new Date().getFullYear()]);
-                        // var day4 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 4] + "/" + [new Date().getFullYear()]);
-                        // var day5 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 5] + "/" + [new Date().getFullYear()]);
-                        // variables for image representing weather for 5 day forecast
                         
+                        // variables for image representing weather for 5 day forecast
                         var icon1 = response.list[1].weather[0].icon;
                         var icon1URL = "https://openweathermap.org/img/wn/" + icon1 + "@2x.png"
                         
@@ -220,7 +211,7 @@
                         var humid3 = response.list[17].main.humidity;
                         var humid4 = response.list[25].main.humidity;
                         var humid5 = response.list[33].main.humidity;
-                        
+                        // creating html for data to render on page
                         var forecastHtml = `
                                     <section id="day-1" class="forecast">
                                     <h4>${day1}</h4>
@@ -253,12 +244,9 @@
                                     <p class="humid-5">Humidity: ${humid5}%</p>
                                 </section>
                         `
-                        $(".row").append(forecastHtml);
-                        // var iconURL = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
+                        $(".row").append(forecastHtml);   
                  })
-
                 };
-
                 // function that will display buttons for cities user has searched for
                 function renderButtons() {
                     // var city = $('#city-input').val();
@@ -296,18 +284,13 @@
                     if (city === "") {
                         city = $(this).attr("data-name");
                     }
-                    
                     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b406b96ea8ac39d55397323d0de502dd";
-
-                    // console.log(city);
                     // creates AJAX call for particular city button being clicked
                     $.ajax({
                         url: queryURL,
                         method: "GET"
 
                     }).then(function (response) {
-                        // console.log(response);
-
                         // convert temperature Kelvin to Fahrenheit
                         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
                         var icon = response.weather[0].icon;
@@ -316,6 +299,7 @@
                         // defining latitude and longitude to use for UV Index api call
                         var uviLat = response.coord.lat;
                         var uviLon = response.coord.lon;
+                        // creating html for weather data to render on page
                         var cityHtml = `
                                 <h2 class="name">${response.name} (${date}) <img id="weather-icon" src="${iconURL}" alt="weather icon" height="52px" width="52px"></h2>
                                     <p>Temperature: ${tempF.toFixed(2)}&deg F</p>
@@ -325,22 +309,21 @@
                         $('.city-display').append(cityHtml);
                                 // temporarily commenting this out
                         var uviURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + uviLat + "&lon=" + uviLon + "&appid=b406b96ea8ac39d55397323d0de502dd";
-                        // make a separate function to call here rather than 
+                        // making ajax call for UV Index data 
                         $.ajax({
                             url: uviURL,
                             method: "GET"
 
                         }).then(function (response) {
-                            // console.log(response);
                             // getting uv index data
                             var uviData = response.value;
-                            // console.log(uviData);
-
+                            // creating html to render UV data
                             var cityUvHtml = `
                                 <p>UV Index: <span id="uv">${uviData}</span></p> 
                         `
                         $('.city-display').append(cityUvHtml);
-
+                            // dictating the color of the UV span
+                            // Green if low risk, yellow if moderate, orange if high, red if very high, purple if extreme
                             if (Number(uviData) < 3) {
                                 $('#uv').addClass("low");
                             }
@@ -359,38 +342,29 @@
                         })
                     })
                 };
+                // function to display weather forecast data
                 function displayFiveDayInfo() {
                     $('.row').empty();
-
+                    // making a variable and storing the value of the search bar inside it
                     var city = $('#city-input').val();
                     if (city === "") {
                         city = $(this).attr("data-name");
                     }
-
+                    // endpoint for 5-day forecast data
                     var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + key2;
                     $.ajax({
                         url: queryURL2,
                         method: "GET"
 
                     }).then(function (response) {
-                        // console.log(response);
-                        // i should organize these into objects? or a for loop?
-                        // const today = new Date()
-                        // const tomorrow = new Date(today)
-                        // tomorrow.setDate(tomorrow.getDate() + 1)
+                        // varibles to display the date
                         var day1 = response.list[1].dt_txt;
                         var day2 = response.list[9].dt_txt;
                         var day3 = response.list[17].dt_txt;
                         var day4 = response.list[25].dt_txt;
                         var day5 = response.list[33].dt_txt;
-                        // var tmrw = response.list[1].dt_txt;
-                        // var day1 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 1] + "/" + [new Date().getFullYear()]);
-                        // var day2 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 2] + "/" + [new Date().getFullYear()]);
-                        // var day3 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 3] + "/" + [new Date().getFullYear()]);
-                        // var day4 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 4] + "/" + [new Date().getFullYear()]);
-                        // var day5 = ([new Date().getMonth() + 1] + "/" + [new Date().getDate() + 5] + "/" + [new Date().getFullYear()]);
+        
                         // variables for image representing weather for 5 day forecast
-                        
                         var icon1 = response.list[1].weather[0].icon;
                         var icon1URL = "https://openweathermap.org/img/wn/" + icon1 + "@2x.png"
                         
@@ -419,7 +393,7 @@
                         var humid3 = response.list[17].main.humidity;
                         var humid4 = response.list[25].main.humidity;
                         var humid5 = response.list[33].main.humidity;
-                        
+                        // creating html to render data to page
                         var forecastHtml = `
                         <section id="day-1" class="forecast">
                         <h4>${day1}</h4>
@@ -453,9 +427,9 @@
                     </section>
                         `
                         $(".row").append(forecastHtml);
-                 })
+                    })
                 };
-                // }
+                // click event for search button, adds city name to array cities, stores in local storage, calls functions to render buttons and display weather 
                 $('#search-btn').on("click", function (event) {
                     event.preventDefault();
 
@@ -463,44 +437,30 @@
                     var city = $("#city-input").val().trim();
                     // was if (city !== null && city !== "")
                     if (city !== "" && cities.includes(city) === false) {
-                        // logging city to console
-                        // console.log(city);
 
                         // add city currently in textbox to the array cities
                         cities.push(city);
-
+                        // storing cities array in local storage
                         localStorage.setItem("Cities", JSON.stringify(cities));
                         // calling renderButtons function so that all cities appear on the page
-
                         renderButtons();
                         // calling displayCityInfo function to display current weather for city user searched for
-
                         displayCityInfo();
+                        // calling function to display 5-day forecast info
                         displayFiveDayInfo();
                     }
                     else {
+                        // in case city is a repeat or no text added, user alerted to enter different text
                         alert("Please enter a new city name.");
                     }
-                    // displayCityInfo() was down here, I moved it up into if statement
+                    // clearing city input text
                     $("#city-form #city-input").val('');
                 })
-
+                // click events on city buttons to run displayCityInfo and displayFiveDayInfo 
                 $(document).on("click", ".city", displayCityInfo); 
                 $(document).on("click", ".city", displayFiveDayInfo);
             });
-            // GIVEN a weather dashboard with form inputs
-            // WHEN I search for a city
-            // THEN I am presented with current and future conditions for that city and that city is added to the search history
-            // WHEN I view current weather conditions for that city
-            // THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-            // WHEN I view the UV index
-            // THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-            // WHEN I view future weather conditions for that city
-            // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
-            // WHEN I click on a city in the search history
-            // THEN I am again presented with current and future conditions for that city
-            // WHEN I open the weather dashboard
-            // THEN I am presented with the last searched city forecast
+            
         </script>
     </div>
 </body>
