@@ -71,6 +71,20 @@ button {
 
 button:hover {
     opacity: 0.85;
+    cursor: pointer;
+}
+
+#clear-cities-btn {
+    height: 44px;
+    width: 44px;
+    padding: 3px;
+    margin-bottom: 10px;
+    margin-left: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
+    flex-flow: column wrap;
 }
 
 .container {
@@ -168,6 +182,7 @@ button:hover {
     width: 60px;
     opacity: 0.85;
 }
+
 #search-btn {
     height: 46px;
     width: 46px;
