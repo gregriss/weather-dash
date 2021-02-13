@@ -460,6 +460,16 @@
                     // clearing city input text
                     $("#city-form #city-input").val('');
                 })
+
+
+                $('#clear-cities-btn').on("click", function(event) {
+                    event.preventDefault();
+                    console.log(event.target);
+                    localStorage.removeItem("Cities");
+                    $('.button-list').empty();
+                    cities = [];
+
+                })
                 // click events on city buttons to run displayCityInfo and displayFiveDayInfo 
                 $(document).on("click", ".city", displayCityInfo); 
                 $(document).on("click", ".city", displayFiveDayInfo);
