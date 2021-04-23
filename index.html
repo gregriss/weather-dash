@@ -17,11 +17,13 @@
 
         <main>
             <div class="city-display">
-                <h2 class="name">City</h2>
-                <p class="temp">Temperature: </p>
-                <p class="humid">Humidity: </p>
-                <p class="wind"> Wind Speed: </p>
-                <p class="uv-index">UV Index:<span id="uv"></span></p>
+                <div class="city-display-content">
+                    <h2 class="name">City</h2>
+                    <p class="temp">Temperature: </p>
+                    <p class="humid">Humidity: </p>
+                    <p class="wind"> Wind Speed: </p>
+                    <p class="uv-index">UV Index:<span id="uv"></span></p>
+                </div>
             </div>
             <div class="five-day">
                 <h3>5-day Forecast: </h3>
@@ -63,9 +65,9 @@
             <div class="search">
                 <h3>Search for a City:</h3>
                 <form id="city-form">
-                    <input id="city-input" type="search" aria-label="Search">
+                    <input id="city-input" type="search" aria-label="Search" placeholder="City Name">
                     <button id="search-btn" type="submit">
-                        <img id="search-icon" src="assets/images/search-white-27x27.png" alt="search">
+                        <img id="search-icon" src="assets/images/search-white-36x36.png" alt="search">
                     </button>
                     <button id="clear-cities-btn">
                         <img id="trash-icon" src="assets/images/trash-red-24x24.png" alt="clear">
